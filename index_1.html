@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>TOEIC 文法 800 線上教材</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+        background: #f5f7fa;
+    }
+
+    h1 {
+        text-align: center;
+        color: #333;
+    }
+
+    #content {
+        max-width: 700px;
+        margin: 0 auto;
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    button {
+        padding: 10px 15px;
+        margin: 10px 5px 0 0;
+        cursor: pointer;
+        border: none;
+        background: #007bff;
+        color: white;
+        border-radius: 5px;
+    }
+
+    button:hover {
+        background: #0056b3;
+    }
+
+    #result {
+        margin-top: 10px;
+        font-weight: bold;
+    }
+
+    #explanation {
+        margin-top: 10px;
+        padding: 10px;
+        background: #eee;
+        border-radius: 5px;
+        display: none;
+    }
+
+    #progressBar {
+        width: 100%;
+        background: #ddd;
+        height: 15px;
+        border-radius: 10px;
+        margin-top: 20px;
+    }
+
+    #progress {
+        height: 100%;
+        width: 0;
+        background: #28a745;
+        border-radius: 10px;
+    }
+</style>
+</head>
+
+<body>
+<h1>TOEIC 文法 800 線上教材</h1>
+
+<div id="content">
+    <h2>單元：常考文法題</h2>
+
+    <p id="question">題目載入中...</p>
+
+    <div id="options"></div>
+
+    <button onclick="checkAnswer()">提交答案</button>
+    <button onclick="showExplanation()">顯示解析</button>
+    <button onclick="nextQuestion()">下一題</button>
+
+    <p id="result"></p>
+    <div id="explanation"></div>
+
+    <h3>學習進度</h3>
+    <div id="progressBar">
+        <div id="progress"></div>
+    </div>
+</div>
+
+<script>
+// 題庫：多益常考文法（提供示範，你可自由新增）
+const questions = [
+    {
+        q: "The report must be finished ___ Friday.",
+        options: ["in", "on", "by", "at"],
+        answer: "by",
+        explanation: "by + 時間 = 截止於某時間前，是多益最常考的時間介系詞。"
+    },
+    {
+        q: "Mr. Kim, ___ works in the sales department, will lead the meeting.",
+        options: ["which", "who", "whom", "whose"],
+        answer: "who",
+        explanation: "先行詞為人，當主格關係代名詞 → who。"
+    },
+    {
+        q: "The new system is ___ more efficient than the old one.",
+        options: ["much", "very", "too", "so"],
+        answer: "much",
+        explanation: "比較級前常用 much / far / a lot 加強語氣。"
+    },
+    {
+        q: "If I ___ more time, I would join the project.",
+        options: ["have", "had", "will have", "having"],
+        answer: "had",
+        explanation: "與現在事實相反 → If + 過去式，主詞 + would。"
+    }
+];
+
+let current = 0;
+let score = 0;
+
+// 顯示題目
+function loadQuestion() {
+    document.getElementById("question").innerText = questions[current].q;
+    const opts = questions[current].options;
+
+    let html = "";
+    opts.forEach(opt => {
+        html += `<label><input type="radio" name="opt" value="${opt}"> ${opt}</label><br>`;
+    });
+
+    document.getElementById("options").innerHTML = html;
+    document.getElementById("result").innerText = "";
+    document.getElementById("explanation").style.display = "none";
+}
+
+function checkAnswer() {
+    let choice = document.querySelector('input[name="opt"]:checked');
+    if (!choice) {
+        alert("請先選擇答案！");
+        return;
+    }
+
+    if (choice.value === questions[current].answer) {
+        document.getElementById("result").innerText = "✔ 答對了！";
+        document.getElementById("result").style.color = "green";
+        score++;
+    } else {
+        document.getElementById("result").innerText = "✘ 答錯了！";
+        document.getElementById("result").style.color = "red";
+    }
+
+    updateProgress();
+}
+
+function showExplanation() {
+    document.getElementById("explanation").innerText = 
+        "解析：" + questions[current].explanation;
+    document.getElementById("explanation").style.display = "block";
+}
+
+function nextQuestion() {
+    current = (current + 1) % questions.length;
+    loadQuestion();
+}
+
+function updateProgress() {
+    let progressPercent = ((current + 1) / questions.length) * 100;
+    document.getElementById("progress").style.width = progressPercent + "%";
+}
+
+loadQuestion();
+</script>
+
+</body>
+</html>
