@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>TOEIC Grammar Practice</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+        background: #f5f5f5;
+    }
+    h1, h2 {
+        color: #333;
+    }
+    .question-block {
+        background: white;
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    button {
+        padding: 10px 20px;
+        background: #0066cc;
+        border: none;
+        color: white;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+    }
+    button:hover {
+        background: #004999;
+    }
+    .result {
+        margin-top: 20px;
+        padding: 15px;
+        background: #e0ffe0;
+        border-left: 5px solid #2ecc71;
+        font-size: 18px;
+    }
+</style>
+</head>
+<body>
+
+<h1>TOEIC Grammar Practice (800 Target)</h1>
+
+<!-- 第一大題：介係詞 10 題 -->
+<div class="question-block">
+    <h2>第一大題：介係詞（10題）</h2>
+
+    <div id="part1"></div>
+</div>
+
+<!-- 第二大題：時態 20 題 -->
+<div class="question-block">
+    <h2>第二大題：時態（20題）</h2>
+
+    <div id="part2"></div>
+</div>
+
+<!-- 第三大題：關係子句 20 題 -->
+<div class="question-block">
+    <h2>第三大題：關係子句（20題）</h2>
+
+    <div id="part3"></div>
+</div>
+
+<button onclick="checkAnswers()">提交全部答案</button>
+<div id="result" class="result" style="display:none;"></div>
+
+<script>
+// ============================
+// 題庫：介係詞（10題）
+// ============================
+const part1Questions = [
+    { q: "1. The meeting will start ___ 3 PM.", options: ["at", "on", "in"], ans: "at" },
+    { q: "2. She arrived ___ the airport early.", options: ["at", "in", "to"], ans: "at" },
+    { q: "3. The memo is due ___ Friday.", options: ["on", "in", "at"], ans: "on" },
+    { q: "4. Please respond ___ the email immediately.", options: ["to", "for", "at"], ans: "to" },
+    { q: "5. They will move ___ a new office soon.", options: ["to", "at", "into"], ans: "into" },
+    { q: "6. The CEO is interested ___ your proposal.", options: ["in", "on", "at"], ans: "in" },
+    { q: "7. The store is located ___ the corner.", options: ["on", "in", "at"], ans: "on" },
+    { q: "8. Workers are prohibited ___ smoking inside.", options: ["from", "about", "for"], ans: "from" },
+    { q: "9. The report must be submitted ___ time.", options: ["on", "in", "at"], ans: "on" },
+    { q: "10. He sat ___ his coworkers during the presentation.", options: ["with", "between", "beside"], ans: "with" }
+];
+
+// ============================
+// 題庫：時態（20題）
+// ============================
+const part2Questions = [
+    { q: "1. The company ___ a new product last month.", options: ["released", "releases", "will release"], ans: "released" },
+    { q: "2. We ___ the project by next week.", options: ["will finish", "finished", "finish"], ans: "will finish" },
+    { q: "3. She usually ___ to work by bus.", options: ["goes", "went", "is going"], ans: "goes" },
+    { q: "4. They ___ the contract now.", options: ["are reviewing", "review", "reviewed"], ans: "are reviewing" },
+    { q: "5. The machine ___ properly yesterday.", options: ["did not work", "does not work", "will not work"], ans: "did not work" },
+    { q: "6. I ___ in this company for 5 years.", options: ["have worked", "worked", "am working"], ans: "have worked" },
+    { q: "7. The seminar ___ at 2 PM today.", options: ["starts", "started", "is start"], ans: "starts" },
+    { q: "8. Our team ___ the best sales results last quarter.", options: ["achieved", "achieves", "will achieve"], ans: "achieved" },
+    { q: "9. They ___ the office before we arrived.", options: ["had cleaned", "cleaned", "have cleaned"], ans: "had cleaned" },
+    { q: "10. We ___ the annual meeting every April.", options: ["hold", "held", "are holding"], ans: "hold" },
+    { q: "11. He ___ the report tomorrow morning.", options: ["will submit", "submits", "submitted"], ans: "will submit" },
+    { q: "12. I ___ him since college.", options: ["have known", "knew", "know"], ans: "have known" },
+    { q: "13. She ___ to the US next week.", options: ["will travel", "traveled", "travels"], ans: "will travel" },
+    { q: "14. They ___ dinner when I called.", options: ["were having", "had", "are having"], ans: "were having" },
+    { q: "15. He usually ___ coffee in the morning.", options: ["drinks", "drank", "is drinking"], ans: "drinks" },
+    { q: "16. The proposal ___ already.", options: ["has been approved", "was approve", "is approving"], ans: "has been approved" },
+    { q: "17. She ___ the meeting for 30 minutes before it finished.", options: ["had been attending", "attended", "was attending"], ans: "had been attending" },
+    { q: "18. The flight ___ at 8 PM tonight.", options: ["will depart", "departs", "departed"], ans: "departs" },
+    { q: "19. I ___ my homework when the phone rang.", options: ["was doing", "am doing", "did"], ans: "was doing" },
+    { q: "20. They ___ the building next year.", options: ["will renovate", "renovated", "renovate"], ans: "will renovate" },
+];
+
+// ============================
+// 題庫：關係子句（20題）
+// ============================
+const part3Questions = [
+    { q: "1. The employee ___ won the award is from our department.", options: ["who", "which", "where"], ans: "who" },
+    { q: "2. The machine ___ we bought last year is broken.", options: ["that", "who", "whom"], ans: "that" },
+    { q: "3. The office ___ she works is downtown.", options: ["where", "which", "who"], ans: "where" },
+    { q: "4. The manager to ___ you spoke is not available.", options: ["whom", "which", "who"], ans: "whom" },
+    { q: "5. The report ___ he submitted was excellent.", options: ["that", "who", "where"], ans: "that" },
+    { q: "6. The woman ___ car was stolen filed a complaint.", options: ["whose", "who", "whom"], ans: "whose" },
+    { q: "7. The company ___ products are exported worldwide is expanding.", options: ["whose", "who", "whom"], ans: "whose" },
+    { q: "8. The day ___ we launched the product was unforgettable.", options: ["when", "where", "which"], ans: "when" },
+    { q: "9. The person ___ called earlier left no message.", options: ["who", "which", "where"], ans: "who" },
+    { q: "10. The cafe ___ we met last time is closed.", options: ["where", "which", "who"], ans: "where" },
+    { q: "11. The book ___ you gave me is helpful.", options: ["that", "who", "when"], ans: "that" },
+    { q: "12. The man ___ house we visited is an architect.", options: ["whose", "whom", "what"], ans: "whose" },
+    { q: "13. The hotel ___ they stayed was luxurious.", options: ["where", "that", "who"], ans: "where" },
+    { q: "14. The reason ___ he resigned is still unclear.", options: ["why", "where", "that"], ans: "why" },
+    { q: "15. The laptop ___ I bought is lightweight.", options: ["that", "who", "where"], ans: "that" },
+    { q: "16. The teacher ___ students love is very patient.", options: ["whose", "who", "whom"], ans: "whose" },
+    { q: "17. The movie ___ we watched was exciting.", options: ["that", "who", "when"], ans: "that" },
+    { q: "18. The woman ___ we met yesterday works here.", options: ["whom", "whose", "what"], ans: "whom" },
+    { q: "19. The restaurant ___ serves sushi is new.", options: ["that", "who", "whom"], ans: "that" },
+    { q: "20. The year ___ the company was founded is 1995.", options: ["when", "which", "where"], ans: "when" },
+];
+
+// ============================
+// 自動產生題目
+// ============================
+function loadQuestions() {
+    // 第一大題
+    part1Questions.forEach((item, i) => {
+        document.getElementById("part1").innerHTML += generateQuestionHTML("p1", i, item);
+    });
+    // 第二大題
+    part2Questions.forEach((item, i) => {
+        document.getElementById("part2").innerHTML += generateQuestionHTML("p2", i, item);
+    });
+    // 第三大題
+    part3Questions.forEach((item, i) => {
+        document.getElementById("part3").innerHTML += generateQuestionHTML("p3", i, item);
+    });
+}
+
+function generateQuestionHTML(prefix, index, item) {
+    let html = `<p>${item.q}<br>`;
+    item.options.forEach(option => {
+        html += `<label><input type="radio" name="${prefix}_${index}" value="${option}"> ${option}</label><br>`;
+    });
+    html += "</p>";
+    return html;
+}
+
+// ============================
+// 批改功能
+// ============================
+function checkAnswers() {
+    let score = 0;
+    let total = part1Questions.length + part2Questions.length + part3Questions.length;
+
+    score += countCorrect("p1", part1Questions);
+    score += countCorrect("p2", part2Questions);
+    score += countCorrect("p3", part3Questions);
+
+    document.getElementById("result").style.display = "block";
+    document.getElementById("result").innerHTML =
+        `你的總分：<strong>${score} / ${total}</strong>`;
+}
+
+function countCorrect(prefix, questions) {
+    let correct = 0;
+    questions.forEach((q, i) => {
+        let name = `${prefix}_${i}`;
+        let selected = document.querySelector(`input[name="${name}"]:checked`);
+        if (selected && selected.value === q.ans) {
+            correct++;
+        }
+    });
+    return correct;
+}
+
+loadQuestions();
+</script>
+
+</body>
+</html>
